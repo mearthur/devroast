@@ -151,27 +151,24 @@ export default async function ComponentsPage() {
         <h2 className="text-xl font-semibold mb-4 text-foreground">{"// table_row"}</h2>
         <div className="p-6 bg-card rounded-lg border border-border">
           <div className="flex flex-col w-full">
-            <TableRow
-              rank="#1"
-              score={9.8}
-              scoreVariant="good"
-              codePreview="function calculateTotal(items) { var total = 0;"
-              language="javascript"
-            />
-            <TableRow
-              rank="#2"
-              score={2.1}
-              scoreVariant="critical"
-              codePreview="function calculateTotal(items) { var total = 0;"
-              language="javascript"
-            />
-            <TableRow
-              rank="#3"
-              score={5.4}
-              scoreVariant="warning"
-              codePreview="function calculateTotal(items) { var total = 0;"
-              language="python"
-            />
+            <TableRow>
+              <TableRowRank>1</TableRowRank>
+              <TableRowScore variant="good">9.8</TableRowScore>
+              <TableRowCode>function calculateTotal(items) {"{"} var total = 0;</TableRowCode>
+              <TableRowLang>javascript</TableRowLang>
+            </TableRow>
+            <TableRow>
+              <TableRowRank>2</TableRowRank>
+              <TableRowScore variant="critical">2.1</TableRowScore>
+              <TableRowCode>function calculateTotal(items) {"{"} var total = 0;</TableRowCode>
+              <TableRowLang>javascript</TableRowLang>
+            </TableRow>
+            <TableRow>
+              <TableRowRank>3</TableRowRank>
+              <TableRowScore variant="warning">5.4</TableRowScore>
+              <TableRowCode>function calculateTotal(items) {"{"} var total = 0;</TableRowCode>
+              <TableRowLang>python</TableRowLang>
+            </TableRow>
           </div>
         </div>
       </section>

@@ -9,6 +9,7 @@ export {
   type DiffLineProps,
 } from "./diff-line";
 export { CodeBlock, type CodeBlockProps } from "./code-block";
+export { CodeEditor, type CodeEditorProps } from "./code-editor";
 export { CardRoot, CardTitle, CardDescription } from "./card";
 export {
   ScoreRing,
@@ -24,6 +25,7 @@ export {
   TableRowRank,
   TableRowScore,
   TableRowCode,
+  TableRowCodeLine,
   TableRowLang,
   TableHeader,
   type TableRowProps,

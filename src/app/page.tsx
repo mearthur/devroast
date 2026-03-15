@@ -1,33 +1,20 @@
 "use client";
 
-import { Button, TableHeader, TableRow, Toggle } from "@/components/ui";
+import {
+  CodeEditor,
+  TableHeader,
+  TableRow,
+  TableRowCode,
+  TableRowCodeLine,
+  TableRowLang,
+  TableRowRank,
+  TableRowScore,
+  Toggle,
+} from "@/components/ui";
+import { Button } from "@/components/ui";
 import { useState } from "react";
 
 const sampleCode = "";
-
-const leaderboardData = [
-  {
-    rank: "#1",
-    score: 1.2,
-    scoreVariant: "critical" as const,
-    codePreview: "function calculateTotal(items) { var total = 0;",
-    language: "javascript",
-  },
-  {
-    rank: "#2",
-    score: 2.1,
-    scoreVariant: "critical" as const,
-    codePreview: "function calculateTotal(items) { var total = 0;",
-    language: "javascript",
-  },
-  {
-    rank: "#3",
-    score: 3.5,
-    scoreVariant: "critical" as const,
-    codePreview: "function calculateTotal(items) { var total = 0;",
-    language: "python",
-  },
-];
 
 export default function Home() {
   const [code, setCode] = useState(sampleCode);
@@ -54,22 +41,7 @@ export default function Home() {
         </div>
 
         {/* Code Editor */}
-        <div className="w-full border border-border-primary bg-bg-input">
-          <div className="flex items-center h-10 px-3 md:px-4 border-b border-border-primary">
-            <div className="flex items-center gap-1.5 md:gap-2">
-              <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-accent-red" />
-              <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-accent-amber" />
-              <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-accent-green" />
-            </div>
-          </div>
-          <textarea
-            className="w-full bg-bg-input text-text-primary font-mono text-xs resize-none focus:outline-none p-3 md:p-4 min-h-[240px]"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="// paste your code here..."
-            spellCheck={false}
-          />
-        </div>
+        <CodeEditor value={code} onChange={setCode} />
 
         {/* Actions Bar */}
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4">
@@ -112,26 +84,52 @@ export default function Home() {
             {"// the worst code on the internet, ranked by shame"}
           </p>
 
-          {/* Table Header */}
-          <TableHeader />
+          {/* Table */}
+          <div className="flex flex-col border border-border-primary">
+            <TableHeader />
 
-          {/* Table Rows */}
-          <div className="flex flex-col">
-            {leaderboardData.map((item) => (
-              <TableRow
-                key={item.rank}
-                rank={item.rank}
-                score={item.score}
-                scoreVariant={item.scoreVariant}
-                codePreview={item.codePreview}
-                language={item.language}
-              />
-            ))}
+            {/* Table Rows */}
+            <div className="flex flex-col">
+              <TableRow>
+                <TableRowRank variant="gold">1</TableRowRank>
+                <TableRowScore variant="critical">1.2</TableRowScore>
+                <TableRowCode>
+                  {'eval(prompt("enter code")'}
+                  {"document.write(response)"}
+                  <TableRowCodeLine variant="comment">{"// trust the user lol"}</TableRowCodeLine>
+                </TableRowCode>
+                <TableRowLang>javascript</TableRowLang>
+              </TableRow>
+              <TableRow>
+                <TableRowRank>2</TableRowRank>
+                <TableRowScore variant="critical">1.8</TableRowScore>
+                <TableRowCode>
+                  {"if (x == true) { return true; }"}
+                  {"else if (x == false) { return false; }"}
+                  {"else { return !false; }"}
+                </TableRowCode>
+                <TableRowLang>typescript</TableRowLang>
+              </TableRow>
+              <TableRow>
+                <TableRowRank>3</TableRowRank>
+                <TableRowScore variant="critical">2.1</TableRowScore>
+                <TableRowCode>
+                  {"SELECT * FROM users WHERE 1=1"}
+                  <TableRowCodeLine variant="comment">
+                    {"-- TODO: add authentication"}
+                  </TableRowCodeLine>
+                </TableRowCode>
+                <TableRowLang>sql</TableRowLang>
+              </TableRow>
+            </div>
           </div>
 
           <div className="flex justify-center py-2 md:py-4">
             <span className="text-text-tertiary font-[family-name:var(--font-secondary)] text-xs">
-              showing top 3 of 2,847 · view full leaderboard &gt;&gt;
+              showing top 3 of 2,847 ·{" "}
+              <a href="/leaderboard" className="hover:text-text-secondary no-underline">
+                view full leaderboard &gt;&gt;
+              </a>
             </span>
           </div>
         </div>

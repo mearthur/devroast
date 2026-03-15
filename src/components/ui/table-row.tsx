@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import { type HTMLAttributes, forwardRef } from "react";
 
-const tableRowRootVariants = cva("flex items-center w-full border-b border-border-primary", {
+const tableRowRootVariants = cva("flex items-start w-full border border-border-primary", {
   variants: {
     variant: {
       default: "",
@@ -32,9 +32,9 @@ TableRowRoot.displayName = "TableRowRoot";
 const rankCellVariants = cva("", {
   variants: {
     size: {
-      sm: "w-10",
-      default: "w-10",
-      lg: "w-12",
+      sm: "w-[40px]",
+      default: "w-[50px]",
+      lg: "w-[60px]",
     },
   },
   defaultVariants: {
@@ -44,13 +44,28 @@ const rankCellVariants = cva("", {
 
 export interface TableRowRankProps extends HTMLAttributes<HTMLSpanElement> {
   size?: "sm" | "default" | "lg";
+  variant?: "default" | "gold";
 }
 
+const rankColorVariants = cva("", {
+  variants: {
+    variant: {
+      default: "text-text-secondary",
+      gold: "text-accent-amber",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
 export const TableRowRank = forwardRef<HTMLSpanElement, TableRowRankProps>(
-  ({ className, size = "default", children, ...props }, ref) => {
+  ({ className, size = "default", variant = "default", children, ...props }, ref) => {
     return (
       <span className={rankCellVariants({ size, className })} ref={ref} {...props}>
-        <span className="font-mono text-[13px] text-text-tertiary">{children}</span>
+        <span className={`pt-0.5 font-mono text-[12px] ${rankColorVariants({ variant })}`}>
+          {children}
+        </span>
       </span>
     );
   }
@@ -61,9 +76,9 @@ TableRowRank.displayName = "TableRowRank";
 const scoreCellVariants = cva("", {
   variants: {
     size: {
-      sm: "w-14",
-      default: "w-15",
-      lg: "w-16",
+      sm: "w-[60px]",
+      default: "w-[70px]",
+      lg: "w-[80px]",
     },
   },
   defaultVariants: {
@@ -71,7 +86,7 @@ const scoreCellVariants = cva("", {
   },
 });
 
-const scoreColorVariants = cva("", {
+const scoreColorVariants = cva("text-accent-red", {
   variants: {
     scoreVariant: {
       critical: "text-accent-red",
@@ -80,7 +95,7 @@ const scoreColorVariants = cva("", {
     },
   },
   defaultVariants: {
-    scoreVariant: "good",
+    scoreVariant: "critical",
   },
 });
 
@@ -90,11 +105,11 @@ export interface TableRowScoreProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 export const TableRowScore = forwardRef<HTMLSpanElement, TableRowScoreProps>(
-  ({ className, size = "default", variant = "good", children, ...props }, ref) => {
+  ({ className, size = "default", variant = "critical", children, ...props }, ref) => {
     return (
       <span className={scoreCellVariants({ size, className })} ref={ref} {...props}>
         <span
-          className={`font-mono text-[13px] font-bold ${scoreColorVariants({ scoreVariant: variant })}`}
+          className={`pt-0.5 font-mono text-[12px] font-bold ${scoreColorVariants({ scoreVariant: variant })}`}
         >
           {children}
         </span>
@@ -121,11 +136,57 @@ export interface TableRowCodeProps extends HTMLAttributes<HTMLSpanElement> {
   truncate?: boolean;
 }
 
+export interface TableRowCodeLineProps extends HTMLAttributes<HTMLSpanElement> {
+  variant?: "default" | "comment";
+}
+
+const codeLineColorVariants = cva("", {
+  variants: {
+    variant: {
+      default: "text-text-primary",
+      comment: "text-[#8B8B8B]",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+export const TableRowCodeLine = forwardRef<HTMLSpanElement, TableRowCodeLineProps>(
+  ({ className, variant = "default", children, ...props }, ref) => {
+    return (
+      <span className={codeLineColorVariants({ variant, className })} ref={ref} {...props}>
+        {children}
+      </span>
+    );
+  }
+);
+
+TableRowCodeLine.displayName = "TableRowCodeLine";
+
 export const TableRowCode = forwardRef<HTMLSpanElement, TableRowCodeProps>(
   ({ className, truncate = true, children, ...props }, ref) => {
+    const content = Array.isArray(children) ? children : [children];
     return (
       <span className={codeCellVariants({ truncate, className })} ref={ref} {...props}>
-        <span className="font-mono text-xs text-text-secondary">{children}</span>
+        <span className="flex flex-col gap-3">
+          {content.map((child, idx) => {
+            const isReactElement = typeof child === "object" && child !== null && "type" in child;
+            const contentKey = isReactElement
+              ? `react-${idx}`
+              : `static-${String(child)
+                  .replace(/[^a-zA-Z0-9]/g, "")
+                  .slice(0, 8)}`;
+            return (
+              <span
+                key={contentKey}
+                className={`whitespace-pre ${isReactElement ? "" : "text-text-primary"}`}
+              >
+                <span className="font-mono text-[12px]">{child}</span>
+              </span>
+            );
+          })}
+        </span>
       </span>
     );
   }
@@ -154,7 +215,7 @@ export const TableRowLang = forwardRef<HTMLSpanElement, TableRowLangProps>(
   ({ className, size = "default", children, ...props }, ref) => {
     return (
       <span className={langCellVariants({ size, className })} ref={ref} {...props}>
-        <span className="font-mono text-xs text-text-tertiary">{children}</span>
+        <span className="pt-0.5 font-mono text-[12px] text-text-secondary">{children}</span>
       </span>
     );
   }
@@ -164,39 +225,15 @@ TableRowLang.displayName = "TableRowLang";
 
 export interface TableRowProps extends HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "rank";
-  rank?: string;
-  score?: string | number;
-  scoreVariant?: "good" | "warning" | "critical";
-  codePreview?: string;
-  language?: string;
   size?: "sm" | "default" | "lg";
   truncate?: boolean;
 }
 
 export const TableRow = forwardRef<HTMLDivElement, TableRowProps>(
-  (
-    {
-      className,
-      variant = "rank",
-      rank = "#1",
-      score,
-      scoreVariant = "good",
-      codePreview,
-      language = "javascript",
-      size = "default",
-      truncate = true,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className, variant = "rank", size = "default", truncate = true, children, ...props }, ref) => {
     return (
       <div className={tableRowRootVariants({ variant, className })} ref={ref} {...props}>
-        <TableRowRank size={size}>{rank}</TableRowRank>
-        <TableRowScore size={size} variant={scoreVariant}>
-          {score}
-        </TableRowScore>
-        <TableRowCode truncate={truncate}>{codePreview}</TableRowCode>
-        <TableRowLang size={size}>{language}</TableRowLang>
+        {children}
       </div>
     );
   }

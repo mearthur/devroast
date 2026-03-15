@@ -196,9 +196,9 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
         <div className="flex overflow-x-auto" style={{ minHeight: editable ? 240 : undefined }}>
           {showLineNumbers && (
             <div className="hidden md:flex flex-col border-r border-border-primary bg-bg-surface text-text-tertiary font-mono text-right w-10 md:w-12 p-2 md:p-3 gap-1.5 md:gap-2">
-              {Array.from({ length: lineCount }, (_, i) => (
-                <span key={i} className="text-xs">
-                  {i + 1}
+              {Array.from({ length: lineCount }, (_, i) => i + 1).map((num) => (
+                <span key={`ln-${num}`} className="text-xs">
+                  {num}
                 </span>
               ))}
             </div>
