@@ -1,64 +1,143 @@
-import Image from "next/image";
+"use client";
+
+import { Button, TableHeader, TableRow, Toggle } from "@/components/ui";
+import { useState } from "react";
+
+const sampleCode = "";
+
+const leaderboardData = [
+  {
+    rank: "#1",
+    score: 1.2,
+    scoreVariant: "critical" as const,
+    codePreview: "function calculateTotal(items) { var total = 0;",
+    language: "javascript",
+  },
+  {
+    rank: "#2",
+    score: 2.1,
+    scoreVariant: "critical" as const,
+    codePreview: "function calculateTotal(items) { var total = 0;",
+    language: "javascript",
+  },
+  {
+    rank: "#3",
+    score: 3.5,
+    scoreVariant: "critical" as const,
+    codePreview: "function calculateTotal(items) { var total = 0;",
+    language: "python",
+  },
+];
 
 export default function Home() {
+  const [code, setCode] = useState(sampleCode);
+  const [roastMode, setRoastMode] = useState(true);
+
+  const hasCode = code.trim().length > 0;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="bg-bg-page flex justify-center">
+      <main className="flex flex-col pt-10 md:pt-20 px-4 md:px-10 gap-6 md:gap-8 w-full max-w-5xl justify-center items-center">
+        {/* Hero Section */}
+        <div className="flex flex-col gap-2 md:gap-3 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3">
+            <span className="text-accent-green text-2xl md:text-4xl font-bold font-mono">$</span>
+            <h1 className="text-text-primary text-2xl md:text-4xl font-bold font-mono">
+              paste your code. get roasted.
+            </h1>
+          </div>
+          <p className="text-text-secondary font-[family-name:var(--font-secondary)] text-xs md:text-sm">
+            {
+              "// drop your code below and we&apos;ll rate it — brutally honest or full roast mode. "
+            }
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Code Editor */}
+        <div className="w-full border border-border-primary bg-bg-input">
+          <div className="flex items-center h-10 px-3 md:px-4 border-b border-border-primary">
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-accent-red" />
+              <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-accent-amber" />
+              <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-accent-green" />
+            </div>
+          </div>
+          <textarea
+            className="w-full bg-bg-input text-text-primary font-mono text-xs resize-none focus:outline-none p-3 md:p-4 min-h-[240px]"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="// paste your code here..."
+            spellCheck={false}
+          />
         </div>
+
+        {/* Actions Bar */}
+        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <Toggle checked={roastMode} onCheckedChange={setRoastMode} />
+            <span className="text-text-tertiary font-[family-name:var(--font-secondary)] text-xs hidden md:inline">
+              {"// maximum sarcasm enabled "}
+            </span>
+          </div>
+          <Button disabled={!hasCode}>$ roast_my_code</Button>
+        </div>
+
+        {/* Stats Footer */}
+        <div className="flex items-center justify-center gap-3 md:gap-6 flex-wrap">
+          <span className="text-text-tertiary font-[family-name:var(--font-secondary)] text-xs">
+            2,847 codes roasted
+          </span>
+          <span className="text-text-tertiary font-mono text-xs">·</span>
+          <span className="text-text-tertiary font-[family-name:var(--font-secondary)] text-xs">
+            avg score: 4.2/10
+          </span>
+        </div>
+
+        {/* Spacer */}
+        <div className="h-8 md:h-16" />
+
+        {/* Leaderboard Preview */}
+        <div className="flex flex-col gap-4 md:gap-6 w-full">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 w-full">
+            <div className="flex items-center gap-2">
+              <span className="text-accent-green text-sm font-bold font-mono">{"//"}</span>
+              <h2 className="text-text-primary text-sm font-bold font-mono">shame_leaderboard</h2>
+            </div>
+            <Button variant="link" size="link">
+              $ view_all &gt;&gt;
+            </Button>
+          </div>
+
+          <p className="text-text-tertiary font-[family-name:var(--font-secondary)] text-xs">
+            {"// the worst code on the internet, ranked by shame"}
+          </p>
+
+          {/* Table Header */}
+          <TableHeader />
+
+          {/* Table Rows */}
+          <div className="flex flex-col">
+            {leaderboardData.map((item) => (
+              <TableRow
+                key={item.rank}
+                rank={item.rank}
+                score={item.score}
+                scoreVariant={item.scoreVariant}
+                codePreview={item.codePreview}
+                language={item.language}
+              />
+            ))}
+          </div>
+
+          <div className="flex justify-center py-2 md:py-4">
+            <span className="text-text-tertiary font-[family-name:var(--font-secondary)] text-xs">
+              showing top 3 of 2,847 · view full leaderboard &gt;&gt;
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom Spacer */}
+        <div className="h-8 md:h-16" />
       </main>
     </div>
   );

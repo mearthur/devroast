@@ -1,26 +1,154 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: #111111;
+  --color-foreground: #ffffff;
+  --color-card: #1a1a1a;
+  --color-card-foreground: #ffffff;
+  --color-popover: #1a1a1a;
+  --color-popover-foreground: #ffffff;
+  --color-primary: #ff8400;
+  --color-primary-foreground: #111111;
+  --color-secondary: #2e2e2e;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #2e2e2e;
+  --color-muted-foreground: #b8b9b6;
+  --color-accent: #111111;
+  --color-accent-foreground: #f2f3f0;
+  --color-destructive: #ff5c33;
+  --color-border: #2e2e2e;
+  --color-input: #2e2e2e;
+  --color-ring: #666666;
+  --color-error: #24100b;
+  --color-error-foreground: #ff5c33;
+  --color-success: #222924;
+  --color-success-foreground: #b6ffce;
+  --color-warning: #291c0f;
+  --color-warning-foreground: #ff8400;
+  --color-info: #222229;
+  --color-info-foreground: #b2b2ff;
+  --color-sidebar: #18181b;
+  --color-sidebar-foreground: #fafafa;
+  --color-sidebar-primary: #18181b;
+  --color-sidebar-primary-foreground: #fafafa;
+  --color-sidebar-accent: #2a2a30;
+  --color-sidebar-accent-foreground: #fafafa;
+  --color-sidebar-border: #ffffff1a;
+  --color-sidebar-ring: #71717a;
+  --color-bg-page: #0c0c0c;
+  --color-bg-surface: #171717;
+  --color-bg-elevated: #1a1a1a;
+  --color-bg-input: #111111;
+  --color-border-primary: #1f1f1f;
+  --color-border-secondary: #252525;
+  --color-border-focus: #10b981;
+  --color-text-primary: #e5e5e5;
+  --color-text-secondary: #a3a3a3;
+  --color-text-tertiary: #737373;
+  --color-text-muted: #525252;
+  --color-diff-removed: #1a0a0a;
+  --color-diff-added: #0a1a0f;
+  --color-accent-green: #10b981;
+  --color-accent-red: #ef4444;
+  --color-accent-amber: #f59e0b;
+  --color-accent-orange: #f97316;
+  --color-accent-blue: #3b82f6;
+  --color-accent-cyan: #06b6d4;
+  --color-green-primary: #22c55e;
+  --color-red-accent: #ef4444;
+  --color-amber-accent: #f59e0b;
+  --color-orange-accent: #f97316;
+  --color-blue-accent: #3b82f6;
+  --color-syn-function: #ffc799;
+  --color-syn-keyword: #a0a0a0;
+  --color-syn-number: #ffc799;
+  --color-syn-operator: #a0a0a0;
+  --color-syn-property: #a0a0a0;
+  --color-syn-string: #99ffe4;
+  --color-syn-type: #ffc799;
+  --color-syn-variable: #ffffff;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --radius-none: 0;
+  --radius-m: 16px;
+  --radius-pill: 999px;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #111111;
+  --foreground: #ffffff;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
+  --primary: #ff8400;
+  --primary-foreground: #111111;
+  --secondary: #2e2e2e;
+  --secondary-foreground: #ffffff;
+  --muted: #2e2e2e;
+  --muted-foreground: #b8b9b6;
+  --accent: #111111;
+  --accent-foreground: #f2f3f0;
+  --destructive: #ff5c33;
+  --border: #2e2e2e;
+  --input: #2e2e2e;
+  --ring: #666666;
+  --error: #24100b;
+  --error-foreground: #ff5c33;
+  --success: #222924;
+  --success-foreground: #b6ffce;
+  --warning: #291c0f;
+  --warning-foreground: #ff8400;
+  --info: #222229;
+  --info-foreground: #b2b2ff;
+  --sidebar: #18181b;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #18181b;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #2a2a30;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #ffffff1a;
+  --sidebar-ring: #71717a;
+  --bg-page: #0c0c0c;
+  --bg-surface: #171717;
+  --bg-elevated: #1a1a1a;
+  --bg-input: #111111;
+  --border-primary: #1f1f1f;
+  --border-secondary: #252525;
+  --border-focus: #10b981;
+  --text-primary: #e5e5e5;
+  --text-secondary: #a3a3a3;
+  --text-tertiary: #737373;
+  --text-muted: #525252;
+  --diff-removed: #1a0a0a;
+  --diff-added: #0a1a0f;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+  --accent-amber: #f59e0b;
+  --accent-orange: #f97316;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+}
+
+code,
+pre,
+kbd,
+samp,
+tt {
+  font-family: "JetBrains Mono", monospace;
 }
